@@ -93,6 +93,7 @@ public class FlinkRiskEngine {
             event.put("EVENT_ID", eventId);
             event.putAll(value);
             out.collect(event);
+            System.out.println("flatmap key value: " + event.getString("KEY_VALUE"));
             keys.forEach(key -> {
                 JSONObject json = new JSONObject();
                 json.put("timestamp", timestamp);
@@ -100,6 +101,7 @@ public class FlinkRiskEngine {
                 json.put("KEY_VALUE", genKeyValue(value, key));
                 json.put("EVENT_ID", eventId);
                 genKeyFields(key).forEach(f -> json.put(f, value.get(f)));
+                System.out.println("flatmap key value: " + json.getString("KEY_VALUE"));
                 out.collect(json);
             });
         }
@@ -314,8 +316,8 @@ public class FlinkRiskEngine {
 
     private static FlinkKafkaConsumer010<String> createKafkaConsumer() {
         Properties properties = new Properties();
-        properties.setProperty("zookeeper.connect", "localhost:2181");
-        properties.setProperty("bootstrap.servers", "localhost:9092");
+        properties.setProperty("zookeeper.connect", "10.30.169.186:2181");
+        properties.setProperty("bootstrap.servers", "10.30.169.186:9092");
         properties.setProperty("group.id", "test");
         properties.setProperty("enable.auto.commit", "true");
         properties.setProperty("auto.commit.interval.ms", "1000");
@@ -325,6 +327,7 @@ public class FlinkRiskEngine {
         FlinkKafkaConsumer010<String> consumer010 = new FlinkKafkaConsumer010<String>("event-input",
                 new SimpleStringSchema(), properties);
         consumer010.setStartFromLatest();
+        
         return consumer010;
     }
 

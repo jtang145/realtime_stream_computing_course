@@ -28,7 +28,7 @@ public class TestData {
     }
 
     public void send() {
-        int samples = 1000000;
+        int samples = 10;
         for (int i = 0; i < samples; i++) {
             String application = "app002";
             long timestamp = System.currentTimeMillis();
@@ -40,13 +40,14 @@ public class TestData {
                     application, timestamp, event_type, payment_account, receiving_account, amount));
             producer.send(new ProducerRecord<>(this.topic, null, event));
             logger.info(String.format("send event[%s]", event));
+            System.out.println(String.format("send event[%s]", event));
             Tools.sleep(1000);
         }
     }
 
 
     public static void main(String args[]) {
-        new TestData("localhost:9092", "event-input").send();
+        new TestData("10.30.169.186:9092", "event-input").send();
     }
 
 }
