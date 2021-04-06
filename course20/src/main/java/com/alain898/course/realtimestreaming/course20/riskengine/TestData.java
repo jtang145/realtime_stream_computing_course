@@ -28,7 +28,7 @@ public class TestData {
     }
 
     public void send() {
-        int samples = 10;
+        int samples = 100;
         for (int i = 0; i < samples; i++) {
             String application = "app002";
             long timestamp = System.currentTimeMillis();

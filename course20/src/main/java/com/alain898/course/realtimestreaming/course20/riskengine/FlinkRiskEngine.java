@@ -55,6 +55,7 @@ public class FlinkRiskEngine {
                         if (StringUtils.isEmpty(s)) {
                             return new JSONObject();
                         }
+                        System.out.print("map event: " + s);
                         return JSONObject.parseObject(s);
                     }
                 })
@@ -213,6 +214,8 @@ public class FlinkRiskEngine {
                 value.putIfAbsent("features", new JSONObject());
                 String featureName = String.format("%s(%s,%s)", feature[0], feature[1], feature[2]);
                 value.getJSONObject("features").put(featureName, featureResult);
+
+                System.out.println("put features with name: " + featureName + ", and value: " + featureResult + " for keyvalue: " + value.getString("KEY_VALUE"));
             }
             return value;
         }
