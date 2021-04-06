@@ -25,6 +25,10 @@ public class TestData {
 
         this.producer = new KafkaProducer<>(properties);
         this.topic = topic;
+        /**
+         *  config/server.properties
+         *  advertised.listeners=PLAINTEXT://10.30.169.186:9092
+         */
     }
 
     public void send() {

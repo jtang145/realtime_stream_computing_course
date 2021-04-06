@@ -15,7 +15,7 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.util.Collector;
 
 import java.io.IOException;
@@ -45,7 +45,7 @@ public class FlinkRiskEngine {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 //        env.enableCheckpointing(5000); // checkpoint机制会允许失败重试从而隐藏程序bug，在开发和调试阶段可以关闭
 
-        FlinkKafkaConsumer010<String> myConsumer = createKafkaConsumer();
+        FlinkKafkaConsumer<String> myConsumer = createKafkaConsumer();
         DataStream<String> stream = env.addSource(myConsumer);
 
         DataStream counts = stream
@@ -317,7 +317,7 @@ public class FlinkRiskEngine {
     }
 
 
-    private static FlinkKafkaConsumer010<String> createKafkaConsumer() {
+    private static FlinkKafkaConsumer<String> createKafkaConsumer() {
         Properties properties = new Properties();
         properties.setProperty("zookeeper.connect", "10.30.169.186:2181");
         properties.setProperty("bootstrap.servers", "10.30.169.186:9092");
@@ -327,7 +327,7 @@ public class FlinkRiskEngine {
         properties.setProperty("auto.offset.reset", "earliest");
         properties.setProperty("session.timeout.ms", "30000");
 
-        FlinkKafkaConsumer010<String> consumer010 = new FlinkKafkaConsumer010<String>("event-input",
+        FlinkKafkaConsumer<String> consumer010 = new FlinkKafkaConsumer<String>("event-input",
                 new SimpleStringSchema(), properties);
         consumer010.setStartFromLatest();
         
