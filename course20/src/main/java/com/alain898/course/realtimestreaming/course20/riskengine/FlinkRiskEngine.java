@@ -94,7 +94,7 @@ public class FlinkRiskEngine {
             event.put("EVENT_ID", eventId);
             event.putAll(value);
             out.collect(event);
-            System.out.println("flatmap key value: " + event.getString("KEY_VALUE"));
+            System.out.println(Thread.currentThread().getName() + ": flatmap key value: " + event.getString("KEY_VALUE"));
             keys.forEach(key -> {
                 JSONObject json = new JSONObject();
                 json.put("timestamp", timestamp);
@@ -215,7 +215,7 @@ public class FlinkRiskEngine {
                 String featureName = String.format("%s(%s,%s)", feature[0], feature[1], feature[2]);
                 value.getJSONObject("features").put(featureName, featureResult);
 
-                System.out.println("put features with name: " + featureName + ", and value: " + featureResult + " for keyvalue: " + value.getString("KEY_VALUE"));
+                System.out.println(Thread.currentThread().getName() + ": put features with name: " + featureName + ", and value: " + featureResult + " for keyvalue: " + value.getString("KEY_VALUE"));
             }
             return value;
         }
